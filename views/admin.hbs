@@ -1,0 +1,45 @@
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <h1>Skate Park</h1>
+
+    <div class="py-4">
+      <h2>Administración</h2>
+      <hr class="w-50" />
+
+      <table class="table w-50 m-auto">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Foto</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Años de experiencia</th>
+            <th scope="col">Especialidad</th>
+            <th scope="col">Estado</th>
+          </tr>
+        </thead>
+        <tbody id="cuerpo">
+          {{#each usuarios}}
+          <tr>
+          <td>{{ this.id }}</td>
+          <td><img height="80px" width="80px" src={{this.foto}}></td>
+          <td>{{ this.nombre }}</td>
+          <td>{{ this.anos_experiencia }}</td>
+          <td>{{ this.especialidad }}</td>
+          <td>
+              <input type="checkbox" {{#if this.auth}} checked {{/if}} onclick="cambiarUsuarioStatus({{this.id}}, this)">
+          </td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+
+  <script>
+    const cambiarUsuarioStatus = async (id, element) => {
+      const { data: authStatus } = await axios.put("/api/v1/usuarios/status", { //se cambia el nombre de data por authStatus
+        id,
+        auth: element.checked
+      });
+      alert(authStatus ? "Usuario habilitado" : "Usuario deshabilitado");
+    }
+  </script>
